@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/putih"
+    android:orientation="vertical"
+    android:padding="10dp"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="100dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+   <TextView
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:layout_marginBottom="5dp"
+       android:layout_weight="2"
+       android:text="Detail Lokasi"
+       android:textColor="#444"
+       android:textAlignment="center"
+       android:textSize="18dp"
+       android:textStyle="bold" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="Lokasi Anda"
+        android:textColor="#444"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="proses mengambil lokasi...."
+        android:layout_marginBottom="3dp"/>
+    <TextView
+        android:id="@+id/koordinat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="proses mengambil Koordinat lokasi...."
+        android:layout_marginBottom="10dp"/>
+    <EditText
+        android:id="@+id/konsumen"
+        android:inputType="textLongMessage"
+        android:background="@drawable/bground"
+        android:layout_marginTop="7dp"
+        android:padding="10dp"
+        android:hint="Masukan Nama Konsumen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:id="@+id/keluhan"
+        android:inputType="textLongMessage"
+        android:background="@drawable/bground"
+        android:layout_marginTop="7dp"
+        android:padding="10dp"
+        android:hint="Masukan Keluhan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+
+            android:background="@color/abu"
+            android:layout_margin="10dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"/>
+        <Button
+            android:textColor="@color/putih"
+            android:padding="5dp"
+            android:background="@drawable/btnround"
+            android:text="Capture foto"
+            android:textAllCaps="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/btnsimpan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="#000"
+        android:foreground="?attr/selectableItemBackground"
+        android:text="Simpan Laporan"
+        android:textColor="#fff" />
+
+</LinearLayout>
