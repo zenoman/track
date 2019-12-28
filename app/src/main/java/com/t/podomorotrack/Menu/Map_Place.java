@@ -1,17 +1,27 @@
 package com.t.podomorotrack.Menu;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Camera;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,6 +46,7 @@ import org.w3c.dom.Text;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class Map_Place extends FragmentActivity {
     Location cuLocation;
@@ -45,6 +56,8 @@ public class Map_Place extends FragmentActivity {
     LinearLayout layoutSheet;
     BottomSheetBehavior sheetBehavior;
     private TextView lokasi,koordinat;
+    private Button btncapture,btnsimpan;
+    private ImageView imgv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,19 +65,47 @@ public class Map_Place extends FragmentActivity {
         layoutSheet=(LinearLayout) findViewById(R.id.bottom_sheet);
         lokasi=(TextView) findViewById(R.id.place);
         koordinat=(TextView) findViewById(R.id.koordinat);
+        btncapture=(Button) findViewById(R.id.btncapture);
+        btnsimpan=(Button) findViewById(R.id.btnsimpan);
+        imgv=(ImageView) findViewById(R.id.imgc);
+        EnableRuntimePermissionToAccessCamera();
         sheetBehavior=BottomSheetBehavior.from(layoutSheet);
-        sheetBehavior.setHideable(true);
         fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(this);
         fetchingLoc();
+        btncapture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 7);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 7 && resultCode == Activity.RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            imgv.setImageBitmap(photo);
+        }
+    }
+
+    private void EnableRuntimePermissionToAccessCamera() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(Map_Place.this,
+                Manifest.permission.CAMERA))
+        {
+
+            // Printing toast message after enabling runtime permission.
+            Toast.makeText(Map_Place.this,"CAMERA permission allows us to Access CAMERA app", Toast.LENGTH_LONG).show();
+
+        } else {
+
+            ActivityCompat.requestPermissions(Map_Place.this,new String[]{Manifest.permission.CAMERA}, 1);
+
+        }
     }
 
     private void fetchingLoc() {
-        if (ActivityCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
-            return;
-        }
         //Get Location name
        final Geocoder geocoder=new Geocoder(this, Locale.getDefault());
 
@@ -94,7 +135,6 @@ public class Map_Place extends FragmentActivity {
                             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                             googleMap.setMyLocationEnabled(true);
                             googleMap.addMarker(markerOptions);
-
                         }
                     });
                     } catch (IOException e) {
