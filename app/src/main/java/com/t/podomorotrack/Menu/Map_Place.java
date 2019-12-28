@@ -12,6 +12,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +46,8 @@ public class Map_Place extends FragmentActivity {
     GoogleMap googleMap;
     LinearLayout layoutSheet;
     BottomSheetBehavior sheetBehavior;
+    ImageButton btnreload;
+
     private TextView lokasi,koordinat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +56,17 @@ public class Map_Place extends FragmentActivity {
         layoutSheet=(LinearLayout) findViewById(R.id.bottom_sheet);
         lokasi=(TextView) findViewById(R.id.place);
         koordinat=(TextView) findViewById(R.id.koordinat);
+        btnreload=(ImageButton) findViewById(R.id.btnload);
         sheetBehavior=BottomSheetBehavior.from(layoutSheet);
         sheetBehavior.setHideable(true);
         fusedLocationProviderClient= LocationServices.getFusedLocationProviderClient(this);
         fetchingLoc();
+        btnreload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fetchingLoc();
+            }
+        });
     }
 
     private void fetchingLoc() {
